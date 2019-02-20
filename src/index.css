@@ -78,10 +78,10 @@ body {
 }
 
 .navActive {
-  border-bottom: 0.25em solid #70CAD1 !important;
+  border-bottom: 0.2em solid #A8E0FF !important;
 }
 .navInactive {
-  border-bottom: 0.25em solid rgba(255,255,255,0) !important;
+  border-bottom: 0.2em solid rgba(255,255,255,0) !important;
 }
 
 
