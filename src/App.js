@@ -22,48 +22,58 @@ render() {
                     scrolling={true}
                 >
                     {sections && sections.map((section, index) =>
-                        <ParallaxLayer offset={index}>
+                        <ParallaxLayer
+                            key={`section-${index}`}
+                            offset={index}
+                        >
+
+                            <Parallax.Layer offset={0.1} speed={0.1} style={{ opacity: 1 }}>
+                                <Box className="box" style={{marginLeft: '80%', background: 'rgba(255,255,255,0.10)'}}/>
+                                <Box className="box" style={{marginLeft: '70%', background: 'rgba(255,255,255,0.10)'}}/>
+                                <Box className="box" style={{marginLeft: '85%', background: 'rgba(255,255,255,0.10)'}}/>
+                            </Parallax.Layer>
+
                             <Grid
-                                rows={['small', 'medium']}
-                                columns={['medium', 'medium']}
-                                gap="small"
+                                fill
+                                rows={["1/3", "1/3", "1/3"]}
+                                columns={["flex", "25%", "25%", "25%", "flex"]}
                                 areas={[
-                                    { name: 'header', start: [0, 0], end: [1, 0] },
-                                    { name: 'nav', start: [0, 1], end: [0, 1] },
-                                    { name: 'main', start: [1, 1], end: [1, 1] },
+                                    { name: "middle", start: [1, 1], end: [3, 1] },
+                                    // { name: "left", start: [1, 1], end: [2, 1] },
+                                    // { name: "right", start: [1, 1], end: [2, 1] },
                                 ]}
                             >
-                                {/*<Box gridArea="header" background="brand">*/}
-                                {/*</Box>*/}
-                                <Box gridArea="nav" background="light-5">
-                                    <p>{section.fields.content}</p>
-                                </Box>
-                                <Box gridArea="main" background="light-2">
-                                    <Tabs height='medium' flex='grow' alignSelf='center'>
-                                        <Tab title='Tab 1'>
-                                            <Box
-                                                margin='medium'
-                                                pad='small'
-                                            >
-                                                <Text>Content for the First Tab</Text>
-                                            </Box>
-                                        </Tab>
-                                        <Tab title='Tab 2'>
-                                            <Box
-                                                margin='small'
-                                                pad='small'
-                                            >
-                                                <Text>Content for the Second Tab</Text>
-
-                                            </Box>
-                                        </Tab>
-                                    </Tabs>
+                                <Box gridArea="middle" className="boxBg"/>
+                                <Box
+                                    gridArea="middle"
+                                    // gridArea={(index%2 === 0) ? 'left' : 'right'}
+                                    background="rgba(255,255,255,0.9)"
+                                    pad="large"
+                                >
+                                    <Text color="#697f89" textAlign="start" size="large">
+                                        {section.fields.content}
+                                    </Text>
                                 </Box>
                             </Grid>
+
+                            <Parallax.Layer offset={-0.1} speed={0.1} style={{ opacity: 1 }}>
+                                <Box className="box" style={{marginLeft: '35%', background: '#8EE3F555'}}/>
+                                <Box className="box" style={{marginLeft: '30%', background: '#8EE3F525'}}/>
+                            </Parallax.Layer>
+
                             {(index + 1 === sections.length) &&
-                            <Parallax.Layer offset={0.2} speed={0.1} style={{ opacity: 1 }}>
-                                <Box>
-                                    <p>Footer</p>
+                            <Parallax.Layer
+                                offset={-0.05}
+                                speed={0.05}
+                                style={{ opacity: 1 }}
+                            >
+                                <Box
+                                    justify="center"
+                                    align="center"
+                                    background="rgba(255,255,255,0.9)"
+                                    pad="large"
+                                >
+                                    <Text color="#697f89">Footer</Text>
                                 </Box>
                             </Parallax.Layer>
                             }
@@ -76,7 +86,7 @@ render() {
                 </Parallax.Layer>
 
                 <Parallax.Layer offset={offset} speed={-0.2} onClick={onClick} style={{zIndex: '-100'}}>
-                    <div className={`slopeEnd pink`}/>
+                    <div className={`slopeEnd gradient`}/>
                 </Parallax.Layer>
 
             </ParallaxLayer>
@@ -86,13 +96,10 @@ render() {
 }
 }
 
-// colors
-// https://coolors.co/05668d-028090-00a896-02c39a-f0f3bd
-// https://coolors.co/a8e0ff-8ee3f5-70cad1-3e517a-b08ea2
-
 class App extends Component {
     state = {
-        pages: []
+        pages: [],
+        activePage: 0
     }
     client = contentful.createClient({
         space: 'ikjhfs32iv4o',
@@ -111,10 +118,15 @@ class App extends Component {
             .catch(console.error);
     }
 
-    goTo = to => e => this.refs.parallax.scrollTo(to);
+    goTo = to => e => {
+        this.refs.parallax.scrollTo(to);
+        this.setState({
+            activePage: to
+        })
+    }
 
     render() {
-        const {pages} = this.state;
+        const {pages, activePage} = this.state;
 
         return (
             <div className="App">
@@ -124,7 +136,7 @@ class App extends Component {
                     direction="row-responsive"
                     justify="center"
                     align="center"
-                    background="#3E517A"
+                    background="rgba(255,255,255,0.9)"
                     gap="small"
                     style={{padding: '1em'}}
                 >
@@ -135,7 +147,10 @@ class App extends Component {
                             key={`header-${page.fields.title}`}
                             label={page.fields.title}
                             onClick={this.goTo(index)}
-                            // style={{borderColor: "#B08EA2"}}
+                            color="#8EE3F5"
+                            plain={true}
+                            style={{color: '#697f89', border: 'none', borderRadius: 0, fontSize: '1.5em', margin: '0 0.5em'}}
+                            className={activePage === index ? 'navActive' : 'navInactive'}
                         />
                     )}
                 </Box>

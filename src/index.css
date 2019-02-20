@@ -6,13 +6,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #A8E0FF;
+  background-color: #697f8915;
 }
 
 .container > div > div {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.boxBg {
+  transform: translate(1.5em, 1.5em);
+  background-color: #70CAD1;
+  z-index: -10;
 }
 
 .text {
@@ -47,11 +53,11 @@ body {
 
 .slopeBegin {
   background-color: #fff;
-  clip-path: polygon(20vw 0, 70% 0, calc(70% - 20vw) 100%, 0 100%);
+  clip-path: polygon(45vw 0, 100vw 0, 55vw 100%, 0 100%);
 }
 
 .slopeEnd {
-  clip-path: polygon(70% 0, 100% 0, calc(100% - 20vw) 100%, calc(70% - 20vw) 100%);
+  clip-path: polygon(60vw 0, 100% 0, 55vw 100%, 15vw 100%);
 }
 
 .slopeBegin,
@@ -62,15 +68,20 @@ body {
   cursor: pointer;
 }
 
-.pink {
-  background: linear-gradient(to right, #00A896 0%, #70CAD1 100%);
+.gradient {
+  background: linear-gradient(to right, #00A89625 0%, #70CAD1 100%);
 }
 
-.teal {
-  background: linear-gradient(to right, SlateBlue 0%, DeepSkyBlue 100%);
+.box {
+  height: 3em;
+  width: 3em;
 }
 
-.tomato {
-  background: linear-gradient(to right, tomato 0%, gold 100%);
+.navActive {
+  border-bottom: 0.25em solid #70CAD1 !important;
 }
+.navInactive {
+  border-bottom: 0.25em solid rgba(255,255,255,0) !important;
+}
+
 
